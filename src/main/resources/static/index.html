@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Title</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/renderjson@1.4.0/renderjson.min.js"></script>
+    <style>
+        .renderjson a { text-decoration: none; }
+        .renderjson .disclosure {
+            color: crimson;
+            font-size: 150%;
+         }
+        .renderjson .syntax { color: grey; }
+        .renderjson .string { color: darkred; }
+        .renderjson .number { color: darkcyan; }
+        .renderjson .boolean { color: blueviolet; }
+        .renderjson .key    { color: darkblue; }
+        .renderjson .keyword { color: blue; }
+        .renderjson .object.syntax { color: lightseagreen; }
+        .renderjson .array.syntax  { color: orange; }
+    </style>
+</head>
+<body>
+<div class="min-h-screen p-20 h-100">
+    <div class="container-lg w-full bg-white shadow-2xl p-4 rounded-md">
+        <div class="flex w-full items-center">
+            <div class="nmr-auto ml-0" href="#"><h1 class="text-2xl">Giorgos ELK Manager</h1></div>
+        </div>
+    </div>
+
+    <div class="container-lg px-0 pt-6">
+        <div class="pt-10 pb-10">
+            <label for="indices">Choose Object:</label>
+            <select name="indices" id="indices">
+            </select>
+        </div>
+        <div class="flex">
+            <!-- Indices -->
+            <div class="p-4">
+                <h2 class="text-2xl font-bold pb-2">
+                    Index Actions
+                </h2>
+
+                <!-- Default -->
+                <div class="rounded-md">
+                    <div class="w-full text-center mx-auto">
+                        <button
+                                type="button"
+                                class="border border-indigo-500 bg-indigo-500 text-white rounded-md px-4 py-2 m-2 transition duration-500 ease select-none hover:bg-indigo-600 focus:outline-none focus:shadow-outline"
+                                onclick="window.execute.list()"
+                        >
+                            List
+                        </button>
+                        <button
+                                type="button"
+                                class="border border-indigo-500 bg-indigo-500 text-white rounded-md px-4 py-2 m-2 transition duration-500 ease select-none hover:bg-indigo-600 focus:outline-none focus:shadow-outline"
+                                onclick="execute.get()"
+                        >
+                            Get
+                        </button>
+                        <button
+                                type="button"
+                                class="border border-green-500 bg-green-500 text-white rounded-md px-4 py-2 m-2 transition duration-500 ease select-none hover:bg-green-600 focus:outline-none focus:shadow-outline"
+                                onclick="execute.create()"
+                        >
+                            Create
+                        </button>
+                        <button
+                                type="button"
+                                class="border border-red-500 bg-red-500 text-white rounded-md px-4 py-2 m-2 transition duration-500 ease select-none hover:bg-red-600 focus:outline-none focus:shadow-outline"
+                                onclick="execute.remove()"
+                        >
+                            Delete
+                        </button>
+                        <button
+                                type="button"
+                                class="border border-yellow-500 bg-yellow-500 text-white rounded-md px-4 py-2 m-2 transition duration-500 ease select-none hover:bg-yellow-600 focus:outline-none focus:shadow-outline"
+                                onclick="execute.update()"
+                        >
+                            Update
+                        </button>
+                    </div>
+                    <div>
+                        <label for="index-name">New Index Name: </label>
+                        <input type="text" name="index-name" id="index-name" placeholder="Only when create new index">
+                    </div>
+                </div>
+                <!-- End Default -->
+            </div>
+            <!-- Customer -->
+        </div>
+    </div>
+    <textarea rows="15" id="data" class="border-2 border-sky-500 w-full" placeholder="{}"></textarea>
+    <br>
+<!--    <button type="submit" id="submit" class="border border-sky-500 bg-sky-500 text-white rounded-md px-4 py-2 m-2 transition duration-500 ease select-none hover:bg-sky-600 focus:outline-none focus:shadow-outline">Submit</button>-->
+    <br>
+    <div id="json" class="border-2 border-red-100 w-full h-full" style="min-height: 100px"></div>
+</div>
+</body>
+<script src="./index.js" type="module"></script>
+</html>
