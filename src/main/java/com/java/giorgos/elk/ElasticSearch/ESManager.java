@@ -55,7 +55,7 @@ public class ESManager {
         credentialsProvider.setCredentials(AuthScope.ANY, new UsernamePasswordCredentials(Project_Properties.Elasticsearch_username, Project_Properties.Elasticsearch_password));
 
         RestClientBuilder lowLevelClientBuilder = RestClient.builder(
-                new HttpHost("localhost", 9200, "https")
+                new HttpHost("es01", 9200, "https")
         );
 
         if (!useSSL) {  // Without TLS

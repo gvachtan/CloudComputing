@@ -28,10 +28,10 @@ document.querySelector("#indices").onchange = function (e) {
     objectType = document.querySelector("#indices").value;
 }
 
-document.querySelector("#submit").onclick = function (e) {
-    const data = document.querySelector("#data").value;
-    endpoints[objectType].post("", data);
-}
+//document.querySelector("#submit").onclick = function (e) {
+//    const data = document.querySelector("#data").value;
+//    endpoints[objectType].post("", data);
+//}
 
 
 window.execute = {

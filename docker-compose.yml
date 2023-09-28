@@ -49,6 +49,7 @@ services:
       retries: 120
 
   es01:
+    user: "1000:0"
     depends_on:
       setup:
         condition: service_healthy
@@ -62,7 +63,8 @@ services:
       - node.name=es01
       - cluster.name=${CLUSTER_NAME}
       - discovery.type=single-node
-      - ES_JAVA_OPTS="-Xms1g -Xmx1g"
+#      - ES_JAVA_OPTS="-Xms1g -Xmx1g"
+      - "ES_JAVA_OPTS=-Xms750m -Xmx750m"
       - ELASTIC_PASSWORD=${ELASTIC_PASSWORD}
       - bootstrap.memory_lock=true
       - xpack.security.enabled=true
@@ -77,7 +79,7 @@ services:
       - xpack.security.transport.ssl.certificate_authorities=certs/ca/ca.crt
       - xpack.security.transport.ssl.verification_mode=certificate
       - xpack.license.self_generated.type=${LICENSE}
-    mem_limit: ${MEM_LIMIT}
+    mem_limit: ${MEM_LIMIT2}
     ulimits:
       memlock:
         soft: -1
@@ -110,7 +112,8 @@ services:
       - ELASTICSEARCH_PASSWORD=${KIBANA_PASSWORD}
       - ELASTICSEARCH_SSL_CERTIFICATEAUTHORITIES=config/certs/ca/ca.crt
       - xpack.security.encryptionKey=${KIBANA_ENCRYPTION_KEY}
-    mem_limit: ${MEM_LIMIT}
+      - xpack.encryptedSavedObjects.encryptionKey=${KIBANA_ENCRYPTION_KEY}
+    mem_limit: ${MEM_LIMIT1}
     healthcheck:
       test:
         [
@@ -120,6 +123,38 @@ services:
       interval: 10s
       timeout: 10s
       retries: 120
+
+  logstash:
+    user: "1000:0"
+    image: logstash:${STACK_VERSION}
+    ports:
+      - 5001:5001
+    volumes:
+      - ./logstash.conf:/usr/share/logstash/pipeline/logstash.conf
+      - certs:/etc/logstash/config/certs
+    command: logstash -f /usr/share/logstash/pipeline/logstash.conf
+    links:
+      - es01
+    depends_on:
+      es01:
+        condition: service_healthy
+
+  web:
+    depends_on:
+      es01:
+        condition: service_healthy
+    links:
+      - logstash
+    build: .
+    ports:
+      - 8080:8080
+    volumes:
+      - certs:/app/certs
+      - ./src:/app/src
+#    command: logstash -f /usr/share/logstash/pipeline/logstash.conf
+#    command: >
+#      bash -c 'tail -f /dev/null'
+
 
 volumes:
   certs:
